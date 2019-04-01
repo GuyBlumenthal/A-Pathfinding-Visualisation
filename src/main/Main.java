@@ -34,6 +34,17 @@ public class Main {
 
 		window = new Window();
 		
+		open = new ArrayList<Cell>();
+		closed = new ArrayList<Cell>();
+		
+		int timerDelay = 20;
+		timer = new Timer(timerDelay, new ActionListener(){
+		  public void actionPerformed(ActionEvent e) {
+		    scanBestNode();
+		    repaint();
+		  }
+		});
+		
 		grid = new ArrayList<ArrayList<Cell>>();
 
 	}
@@ -87,22 +98,13 @@ public class Main {
 	}
 
 	public static void startPathFinding() {
+		endViz();
 		pathfinding = true;
-
-		open = new ArrayList<Cell>();
-		closed = new ArrayList<Cell>();
 
 		for (Cell cell : getNeighbours(start)) {
 			addToOpen(cell, start);
 		}
 
-		int timerDelay = 20;
-		timer = new Timer(timerDelay, new ActionListener(){
-		  public void actionPerformed(ActionEvent e) {
-		    scanBestNode();
-		    repaint();
-		  }
-		});
 		timer.start();
 
 		
@@ -167,6 +169,8 @@ public class Main {
 			curPathCell.setPathColor();
 			curPathCell = curPathCell.parent;
 		}
+		start.setStartColor();
+		end.setEndColor();
 	}
 
 	public static void removeVisualization() {
